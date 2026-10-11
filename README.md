@@ -50,49 +50,45 @@
 
 Bash
 # Запуск перевірки введеного числа
-python tasks/task1_validation.py
+python 1.py
 
 # Запуск юніт-тестів для підрахунку голосних
-python tasks/task2_vowels.py
+python 2.py
 
 # Запуск юніт-тестів для класу Figure
-python tasks/task3_test.py
+python app.py
 
 # Запуск розширених тестів (subTest та mock.patch)
-python tasks/task4_advanced.py
+python 4.py
 
-Також усі тести можна запустити однією командою через стандартний runner unittest у розширеному режимі (verbose):
-
-python -m unittest discover -s tasks -p "*test*.py" -v
 
 **2.Результат виконання тестів**
 
-test_english_words (task2_vowels.TestCountVowels) ... ok
-test_mixed_case (task2_vowels.TestCountVowels) ... ok
-test_no_vowels (task2_vowels.TestCountVowels) ... ok
-test_empty_string (task2_vowels.TestCountVowels) ... ok
-test_string_with_digits_and_symbols (task2_vowels.TestCountVowels) ... ok
-test_ukrainian_letters (task2_vowels.TestCountVowels) ... ok
-test_get_figure_length (task3_test.TestFigure) ... ok
-test_get_angles (task3_test.TestFigure) ... ok
-test_zero_length (task3_test.TestFigure) ... ok
-test_negative_length (task3_test.TestFigure) ... ok
-test_unknown_figure_type (task3_test.TestFigure) ... ok
-test_all_figure_types_with_subtest (task4_advanced.TestAdvancedFeatures) ... ok
-test_get_user_figure_length (task4_advanced.TestAdvancedFeatures) ... ok
+studi@MacBook-Air-studi test % python3 -c "import unittest; from importlib.machinery import SourceFileLoader; suite=unittest.TestSuite(); [suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(SourceFileLoader('test'+str(i), f'{f}.py').load_module())) for i,f in enumerate(['1','2','3.2','4'])]; unittest.TextTestRunner(verbosity=2).run(suite)"
+test_empty_string (test1.TestCountVowels.test_empty_string) ... ok
+test_english_words (test1.TestCountVowels.test_english_words) ... ok
+test_mixed_case (test1.TestCountVowels.test_mixed_case) ... ok
+test_no_vowels (test1.TestCountVowels.test_no_vowels) ... ok
+test_string_with_digits_and_symbols (test1.TestCountVowels.test_string_with_digits_and_symbols) ... ok
+test_ukrainian_letters (test1.TestCountVowels.test_ukrainian_letters) ... ok
+test_get_angles (test2.TestFigure.test_get_angles) ... ok
+test_get_figure_length (test2.TestFigure.test_get_figure_length) ... ok
+test_negative_length (test2.TestFigure.test_negative_length) ... ok
+test_unknown_figure_type (test2.TestFigure.test_unknown_figure_type) ... ok
+test_zero_length (test2.TestFigure.test_zero_length) ... ok
+test_all_figure_types_with_subtest (test3.TestAdvancedFeatures.test_all_figure_types_with_subtest) ... ok
+test_get_user_figure_length (test3.TestAdvancedFeatures.test_get_user_figure_length) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.006s
-
-OK
+Ran 13 tests in 0.001s
 
 **3.Тест, який спочатку не проходив, та його виправлення***
 
-При виконанні task2_vowels.py тест test_mixed_case повертав помилку FAIL:
+При виконанні 2.py тест test_mixed_case повертав помилку FAIL:
 
-FAIL: test_mixed_case (task2_vowels.TestCountVowels)
+FAIL: test_mixed_case (2.TestCountVowels)
 Traceback (most recent call last):
-  File "tasks/task2_vowels.py", line 19, in test_mixed_case
+  File "/Users/studi/Desktop/test/2.py", line 19, in test_mixed_case
     self.assertEqual(count_vowels("PyThOn"), 1)
 AssertionError: 2 != 1
 
@@ -106,12 +102,12 @@ def test_mixed_case(self):
 
 **4.Пояснення призначення subTest та mock у власному прикладі**
 
-Призначення subTest (у файлі task4_advanced.py):
+Призначення subTest (у файлі 4.py):
 
 subTest використовується для параметризованого тестування декількох наборів даних у межах одного тестового методу.
 Перевага: Якщо один з параметрів (наприклад, для "прямокутник") зазнає невдачі, виконання тесту не зупиняється на ньому. unittest перевірить усі інші параметри ("квадрат", "трикутник") та точно вкаже, на яких саме даних стався збій. 
 
-Призначення mock / patch (у файлі task4_advanced.py):
+Призначення mock / patch (у файлі 4.py):
 
 Декоратор @patch("builtins.input", return_value="15.5") ізолює тест від зовнішнього інтерактивного введення.
 Перевага: Він підміняє стандартну системну функцію input() на об'єкт-макет (mock), який автоматично повертає заздалегідь визначений рядок "15.5". Це дозволяє повністю автоматизувати тестування функцій з користувацьким введенням без зупинки програми та очікування ручних дій користувача
